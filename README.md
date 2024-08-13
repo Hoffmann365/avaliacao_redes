@@ -18,5 +18,4 @@ flowchart TD
     L --> E
     M --> E
     N --> O["Fim"]
-    D --> B
 ```
