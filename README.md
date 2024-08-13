@@ -1,3 +1,11 @@
+# Documentação do Projeto
+
+## SharedMemoryClient
+O projeto [SharedMemoryClient](./SharedMemoryClient/SharedMemoryClient/Program.cs) apresenta o código do Cliente que
+que acessa o Servidor enviado na Avaliação.
+
+O Fluxograma abaixo apresenta o comportamento do Código do Cliente
+
 ```mermaid
 flowchart TD
     A["Iniciar Cliente"] --> B["Conectar ao Servidor"]
@@ -19,8 +27,21 @@ flowchart TD
     M --> E
     N --> O["Fim"]
 ```
+
+### Explicação do Código Utilizado
+
+Bibliotecas utilizadas no Projeto:
+
 ```c#
-try
+using System;
+using System.Net.Sockets;
+using System.Text;
+
+```
+
+1. Configuração Inicial
+```c#
+ try
         {
             //configura o servidor e a porta
             string server = "127.0.0.1";
@@ -29,16 +50,12 @@ try
             //conecta ao servidor
             TcpClient client = new TcpClient(server, port);
 
-            // Obtém o stream para ler e escrever dados
-            NetworkStream stream = client.GetStream();
+```
+- **server:** Define o endereço IP do servidor como '127.0.0.1', que é o endereço do próprio computador (localhost).
+- **port:** Define a porta para conexão como '13000'.
+- **TcpClient client = new TcpClient(server, port);:** Cria uma nova instância de TcpClient e tenta conectar ao servidor no endereço e porta especificados.
 
-            // Buffer para armazenar os dados recebidos do servidor
-            byte[] buffer = new byte[256];
-            int bytesRead;
 
-            // Recebe e exibe o menu inicial do servidor
-            bytesRead = stream.Read(buffer, 0, buffer.Length);
-            string serverMessage = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-            Console.WriteLine(serverMessage);
+```c#
 
 ```
