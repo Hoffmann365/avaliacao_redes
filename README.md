@@ -1,4 +1,4 @@
-'''mermaid
+```mermaid
 flowchart TD
     A["Iniciar Cliente"] --> B["Conectar ao Servidor"]
     B --> C{"Conexão Estabelecida?"}
@@ -19,4 +19,4 @@ flowchart TD
     M --> E
     N --> O["Fim"]
     D --> B
-'''
+```
