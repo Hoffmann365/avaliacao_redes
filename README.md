@@ -1,5 +1,9 @@
 # Documentação do Projeto
 
+### Devs do Projeto
+- Davi Hoffmann
+- Brenna Maria
+  
 ## SharedMemoryClient
 O projeto [SharedMemoryClient](./SharedMemoryClient/SharedMemoryClient/Program.cs) apresenta o código do Cliente que
 que acessa o Servidor enviado na [Avaliação](https://github.com/lupamedeiros/pjd_redes/blob/main/aula_03).
