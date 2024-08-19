@@ -82,6 +82,12 @@ while (true)
     // Lê a opção do usuário
     string option = Console.ReadLine();
 
+    // Corrige o problema do código crashar caso apertasse Enter
+    if (option == "")
+    {
+        continue;
+    }
+
     // Envia a opção escolhida ao servidor
     byte[] data = Encoding.UTF8.GetBytes(option);
     stream.Write(data, 0, data.Length);
@@ -101,6 +107,7 @@ while (true)
 ```
 - **while(true)** : Inicia um loop infinito, mantendo a conexão ativa enquanto o cliente não decide sair.
 - **string option = Console.ReadLine();** : Lê a opção digitada pelo usuário no console.
+- **if (option == "") { continue;}** : caso aperte enter sem digitar nada, volta a esperar o cliente digitar a opção.
 - **byte[] data = Encoding.UTF8.GetBytes(option);** : Converte a string 'option' para um array de bytes usando a codificação UTF-8.
 - **stream.Write(data, 0, data.Length);** : Envia os bytes ao servidor através do 'NetworkStream'.
 - **bytesRead = stream.Read(buffer, 0, buffer.Length);** : Aguarda e lê a resposta do servidor.
