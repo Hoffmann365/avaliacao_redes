@@ -1,0 +1,6 @@
+C:\Users\Aluno\Documents\Git\avaliacao_redes\SharedMemoryClient\SharedMemoryClient\bin\Debug\SharedMemoryClient.exe
+C:\Users\Aluno\Documents\Git\avaliacao_redes\SharedMemoryClient\SharedMemoryClient\bin\Debug\SharedMemoryClient.pdb
+C:\Users\Aluno\Documents\Git\avaliacao_redes\SharedMemoryClient\SharedMemoryClient\obj\Debug\SharedMemoryClient.csproj.AssemblyReference.cache
+C:\Users\Aluno\Documents\Git\avaliacao_redes\SharedMemoryClient\SharedMemoryClient\obj\Debug\SharedMemoryClient.csproj.CoreCompileInputs.cache
+C:\Users\Aluno\Documents\Git\avaliacao_redes\SharedMemoryClient\SharedMemoryClient\obj\Debug\SharedMemoryClient.exe
+C:\Users\Aluno\Documents\Git\avaliacao_redes\SharedMemoryClient\SharedMemoryClient\obj\Debug\SharedMemoryClient.pdb

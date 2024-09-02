@@ -20,7 +20,7 @@ class Program
             NetworkStream stream = client.GetStream();
 
             // Buffer para armazenar os dados recebidos do servidor
-            byte[] buffer = new byte[256];
+            byte[] buffer = new byte[512];
             int bytesRead;
 
             // Recebe e exibe o menu inicial do servidor
@@ -31,7 +31,9 @@ class Program
             while (true)
             {
                 // Lê a opção do usuário
-                string option = Console.ReadLine();
+                string option = Console.ReadLine() + "/n";
+                
+                
 
                 // Envia a opção escolhida ao servidor
                 byte[] data = Encoding.UTF8.GetBytes(option);
@@ -47,6 +49,7 @@ class Program
                 {
                     break;
                 }
+                
             }
 
             // Fecha o stream e o cliente
