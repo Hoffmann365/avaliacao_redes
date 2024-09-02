@@ -35,6 +35,12 @@ class Program
                 
                 
 
+                // Corrige o problema do código crashar caso apertasse Enter
+                if (option == "")
+                {
+                    continue;
+                }
+
                 // Envia a opção escolhida ao servidor
                 byte[] data = Encoding.UTF8.GetBytes(option);
                 stream.Write(data, 0, data.Length);
