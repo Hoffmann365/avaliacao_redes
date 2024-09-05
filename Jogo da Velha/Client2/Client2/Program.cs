@@ -18,6 +18,7 @@ class TicTacToeClient
         int found = 0;
         int bytesRead = 0;
         bool ignore = false;
+        string board = string.Empty;
         
         try
         {
@@ -57,7 +58,7 @@ class TicTacToeClient
                 // Recebe o tabuleiro atual do servidor
                 bytesRead = stream.Read(buffer, 0, buffer.Length);
                 response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                string board = response;
+                board = response;
                 
                 // Verificar se houve vitória ou empate
                 if (response.EndsWith("1"))
@@ -148,10 +149,8 @@ class TicTacToeClient
                         Console.WriteLine("Jogada registrada com sucesso!");
                         break;
                     }
-                    
                 }
-
-               
+                
                 
             }
         }

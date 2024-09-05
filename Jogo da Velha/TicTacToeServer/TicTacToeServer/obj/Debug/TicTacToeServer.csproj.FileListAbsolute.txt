@@ -1,0 +1,7 @@
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\bin\Debug\TicTacToeServer.exe
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\bin\Debug\TicTacToeServer.pdb
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\obj\Debug\TicTacToeServer.csproj.AssemblyReference.cache
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\obj\Debug\TicTacToeServer.csproj.SuggestedBindingRedirects.cache
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\obj\Debug\TicTacToeServer.csproj.CoreCompileInputs.cache
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\obj\Debug\TicTacToeServer.exe
+C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeServer\TicTacToeServer\obj\Debug\TicTacToeServer.pdb
