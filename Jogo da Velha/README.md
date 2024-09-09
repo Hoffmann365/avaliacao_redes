@@ -65,6 +65,7 @@ using System.Text;
 ```
 
 1. Conexão com o Servidor:
+
 ```c#
 //Define o IP e a Porta
 string server = "127.0.0.1";
@@ -78,3 +79,52 @@ stream = client.GetStream();
 Console.WriteLine("Conectado ao servidor do Jogo da Velha!");
 ```
 Nesse primeiro bloco de código, o Cliente define o IP e a porta do Servidor e realiza a conexão. Após se conectar o Cliente exibe uma mensagem de confirmação de conexão.
+
+2. Espera Pela Conexão dos 2 Jogadores:
+
+```c#
+ while (!gameStarted)
+{
+    //Receber mensagem inicial do servidor (esperando outro jogador ou início do jogo)
+    bytesRead = stream.Read(buffer, 0, buffer.Length);
+    startMsg = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
+
+    //Se a mensagem for 1 exibe uma mensagem de espera pelo outro Player 
+    if (startMsg == "1" && !ignore)
+    {
+        //Mensagem de espera pelo Jogador 2
+        Console.WriteLine("Aguardando outro jogador...");
+        //Armazena a informação de que é o Jogador 1 (X)
+        playerSymbol = "X";
+        ignore = true;
+    }
+    //Se a mensagem for 0 exibe mensagem de confirmação de Início da Partida
+    else if (startMsg == "0")
+    {
+        //Mensagem de confirmação de Início de Partida
+        Console.WriteLine("Iniciando Partida...");
+        //Valor padrão de "playerSymbol" é "O"
+        gameStarted = true;
+    }
+}
+```
+
+Nesse bloco de código o Cliente recebe uma mensagem do Servidor, a qual se for '1' indica que está aguardando outro jogador e que também que o Cliente é o Jogador 1 ("X"). Caso a mensagem seja '0' indica que o Cliente é o jogador 2 ("O") e que já vai iniciar a partida. 
+
+Se a mensagem for '1' o cliente exibe a mensagem "Aguardando outro Jogador..." , armazena que ele é o jogador 1 e fica aguardando o começo da partida. Se a mensagem for '0' o Cliente exibe uma mensagem de confirmação de início de partida e parte para o próximo bloco de código.
+
+3. Exibição Inicial do Tabuleiro
+```c#
+// Recebe mensagem do Servidor
+bytesRead = stream.Read(buffer, 0, buffer.Length);
+response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            
+// Exibe o tabuleiro
+ExibirTabuleiro(response);
+
+if (playerSymbol == "O")
+{
+    control = true;
+}
+```
+**continuar a descrição do código fonte...**
