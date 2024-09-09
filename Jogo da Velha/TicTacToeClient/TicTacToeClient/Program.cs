@@ -42,116 +42,100 @@ class TicTacToeClient
                 }
                 else if (startMsg == "0")
                 {
-                    Console.WriteLine("A partida vai começar!");
+                    Console.WriteLine("Iniciando Partida...");
                     gameStarted = true;
                 }
             }
             
+            //Console.WriteLine(playerSymbol);
             
+            // Recebe mensagem do Servidor
+            bytesRead = stream.Read(buffer, 0, buffer.Length);
+            response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
             
-            Console.WriteLine(playerSymbol);
-
+            // Exibe o tabuleiro
+            Console.WriteLine(response);
+            ExibirTabuleiro(response);
+            
             // Loop do jogo
             while (!gameEnded)
             {
-                // Recebe o tabuleiro atual do servidor
+                // Recebe mensagem do Servidor
                 bytesRead = stream.Read(buffer, 0, buffer.Length);
                 response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                string board = response;
-                
-                // Verificar se houve vitória ou empate
-                if (response.EndsWith("1"))
-                {
-                    if (playerSymbol == "O")
-                    {
-                        Console.WriteLine("Você venceu!");
-                        
-                    }
-                    else
-                    {
-                        Console.WriteLine("Oponente venceu!");
-                    }
-                    gameEnded = true;
-                }
-                else if (response.EndsWith("2"))
-                {
-                    if (playerSymbol == "X")
-                    {
-                        Console.WriteLine("Você venceu!");
-                        
-                    }
-                    else
-                    {
-                        Console.WriteLine("Oponente venceu!");
-                    }
-                    gameEnded = true;
-                }
-                else if (response.EndsWith("3"))
-                {
-                    Console.WriteLine("Empate!");
-                    gameEnded = true;
-                }
-                
-                // Receber a solicitação de jogada (X ou O)
-                bytesRead = stream.Read(buffer, 0, buffer.Length);
-                response = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
-                
-                Console.WriteLine(response);
 
-                if (playerSymbol == "X")
+                if (response.Length == 1)
                 {
-                    if (response == "X")
-                    {
-                        // Exibe o tabuleiro
-                        Console.WriteLine(board);
-                        ExibirTabuleiro(board);
-                        Console.WriteLine("Sua vez! Insira a posição (1-9):");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Vez do Oponente");
-                        continue;
-                    }
-                }
-                if (playerSymbol == "O")
-                {
-                    if (response == "O")
-                    {
-                        // Exibe o tabuleiro
-                        Console.WriteLine(board);
-                        ExibirTabuleiro(board);
-                        Console.WriteLine("Sua vez! Insira a posição (1-9):");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Vez do Oponente");
-                        continue;
-                    }
-                }
-
-                while (true)
-                {
-                    string jogada = Console.ReadLine();
-                    byte[] msg = Encoding.UTF8.GetBytes(jogada);
-                    stream.Write(msg, 0, msg.Length);
-
-                    // Receber a confirmação da jogada
-                    bytesRead = stream.Read(buffer, 0, buffer.Length);
-                    response = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
-
-                    if (response == "-1")
-                    {
-                        Console.WriteLine("Jogada inválida, tente novamente.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Jogada registrada com sucesso!");
-                        break;
-                    }
                     
-                }
+                    while (true)
+                    {
+                        //Pede para o usuário digitar a jogada
+                        Console.WriteLine("Sua vez! Digite sua Jogada (1-9):");
+                        
+                        //Envia a jogada para o Servidor
+                        string jogada = Console.ReadLine();
+                        byte[] msg = Encoding.UTF8.GetBytes(jogada);
+                        stream.Write(msg, 0, msg.Length);
 
-               
+                        // Receber a confirmação da jogada
+                        bytesRead = stream.Read(buffer, 0, buffer.Length);
+                        response = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
+
+                        if (response == "-1")
+                        {
+                            Console.WriteLine("Jogada inválida, tente novamente.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Jogada registrada com sucesso!");
+                            // Recebe tabuleiro atualizado do Servidor
+                            bytesRead = stream.Read(buffer, 0, buffer.Length);
+                            response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                            break;
+                        }
+
+                    }
+                }
+                
+                // Exibe o tabuleiro
+                Console.WriteLine(response);
+                ExibirTabuleiro(response);
+
+                if (response.Length == 10)
+                {
+                    // Verificar se houve vitória ou empate
+                    if (response.EndsWith("1"))
+                    {
+                        if (playerSymbol == "X")
+                        {
+                            Console.WriteLine("Jogo Encerrado, Você venceu!");
+                        
+                        }
+                        else if (playerSymbol == "O")
+                        {
+                            Console.WriteLine("Jogo Encerrado, Oponente venceu!");
+                        }
+                        gameEnded = true;
+                    }
+                    else if (response.EndsWith("2"))
+                    {
+                        if (playerSymbol == "O")
+                        {
+                            Console.WriteLine("Jogo Encerrado, Você venceu!");
+                        
+                        }
+                        else if (playerSymbol == "X")
+                        {
+                            Console.WriteLine("Jogo Encerrado, Oponente venceu!");
+                        }
+                        gameEnded = true;
+                    }
+                    else if (response.EndsWith("3"))
+                    {
+                        Console.WriteLine("Jogo Encerrado, Deu Velha!(Empate)");
+                        gameEnded = true;
+                    }
+                }
                 
             }
         }
@@ -170,11 +154,13 @@ class TicTacToeClient
 
     static void ExibirTabuleiro(string board)
     {
+        Console.WriteLine("/n");
         Console.WriteLine("Tabuleiro Atual:");
         Console.WriteLine($"{board[0]} | {board[1]} | {board[2]}");
         Console.WriteLine("--+---+--");
         Console.WriteLine($"{board[3]} | {board[4]} | {board[5]}");
         Console.WriteLine("--+---+--");
         Console.WriteLine($"{board[6]} | {board[7]} | {board[8]}");
+        Console.WriteLine("/n");
     }
 }

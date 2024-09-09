@@ -5,3 +5,9 @@ C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeC
 C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.csproj.CoreCompileInputs.cache
 C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.exe
 C:\Users\WNDN\Documents\Davi's Docs\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.pdb
+C:\Users\Aluno\Documents\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\bin\Debug\TicTacToeClient.exe
+C:\Users\Aluno\Documents\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\bin\Debug\TicTacToeClient.pdb
+C:\Users\Aluno\Documents\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.csproj.AssemblyReference.cache
+C:\Users\Aluno\Documents\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.csproj.CoreCompileInputs.cache
+C:\Users\Aluno\Documents\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.exe
+C:\Users\Aluno\Documents\Git\avaliacao_redes\Jogo da Velha\TicTacToeClient\TicTacToeClient\obj\Debug\TicTacToeClient.pdb
