@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Sockets;
 using System.Text;
 
@@ -18,6 +18,7 @@ class TicTacToeClient
         int found = 0;
         int bytesRead = 0;
         bool ignore = false;
+        bool control = false;
         
         try
         {
@@ -47,8 +48,6 @@ class TicTacToeClient
                 }
             }
             
-            //Console.WriteLine(playerSymbol);
-            
             // Recebe mensagem do Servidor
             bytesRead = stream.Read(buffer, 0, buffer.Length);
             response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
@@ -56,10 +55,21 @@ class TicTacToeClient
             // Exibe o tabuleiro
             Console.WriteLine(response);
             ExibirTabuleiro(response);
+
+            if (playerSymbol == "O")
+            {
+                control = true;
+            }
+
+            
             
             // Loop do jogo
             while (!gameEnded)
             {
+                if (control)
+                {
+                    Console.WriteLine("Aguarde a Jogada do seu oponente...");
+                }
                 // Recebe mensagem do Servidor
                 bytesRead = stream.Read(buffer, 0, buffer.Length);
                 response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
@@ -98,7 +108,6 @@ class TicTacToeClient
                 }
                 
                 // Exibe o tabuleiro
-                Console.WriteLine(response);
                 ExibirTabuleiro(response);
 
                 if (response.Length == 10)
@@ -136,6 +145,15 @@ class TicTacToeClient
                         gameEnded = true;
                     }
                 }
+
+                if (control)
+                {
+                    control = false;
+                }
+                else if (!control)
+                {
+                    control = true;
+                }
                 
             }
         }
@@ -154,13 +172,13 @@ class TicTacToeClient
 
     static void ExibirTabuleiro(string board)
     {
-        Console.WriteLine("/n");
+        Console.WriteLine("");
         Console.WriteLine("Tabuleiro Atual:");
         Console.WriteLine($"{board[0]} | {board[1]} | {board[2]}");
         Console.WriteLine("--+---+--");
         Console.WriteLine($"{board[3]} | {board[4]} | {board[5]}");
         Console.WriteLine("--+---+--");
         Console.WriteLine($"{board[6]} | {board[7]} | {board[8]}");
-        Console.WriteLine("/n");
+        Console.WriteLine("");
     }
 }
