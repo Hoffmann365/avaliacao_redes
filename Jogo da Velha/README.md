@@ -36,10 +36,10 @@ flowchart TD
     E -- Sim --> G[Receber Tabuleiro e Status de Jogo]
     E -- Não --> F[Aguardar Outro Jogador]
     F --> G
-    G --> H{Sua Vez?}
-    H -- Não --> I[Aguardar Outro Jogador]
-    I --> H
-    H -- Sim --> J[Exibir Tabuleiro]
+    G --> H[Exibe Tabuleiro]
+    J -- Não --> I[Aguardar Outro Jogador]
+    I --> P
+    H --> J{Sua vez?}
     J --> K[Solicitar Jogada ao Jogador]
     K --> L[Enviar Jogada ao Servidor]
     L --> S[Receber Confirmação da Jogada]
@@ -48,11 +48,13 @@ flowchart TD
     N --> K
     M -- Sim --> O[Exibir Confirmação de Jogada]
     O --> P[Receber Tabuleiro e Status do Jogo Atualizado]
-    P --> Q{Jogo Encerrado?}
-    Q -- Não --> I
-    Q -- Sim --> R[Exibir Mensagem do Servidor]
+    P --> W
+    W --> Q{Jogo Encerrado?}
+    Q -- Não --> J
+    Q -- Sim --> R[Exibir Condição de Encerramento]
     R --> U[Encerrar Jogo]
     U --> V[Fechar Conexão]
+    W[Exibe Tabuleiro Atualizado]
 ```
 
 ### Descrição do Código Fonte
@@ -109,9 +111,9 @@ Nesse primeiro bloco de código, o Cliente define o IP e a porta do Servidor e r
 }
 ```
 
-Nesse bloco de código o Cliente recebe uma mensagem do Servidor, a qual se for '1' indica que está aguardando outro jogador e que também que o Cliente é o Jogador 1 ("X"). Caso a mensagem seja '0' indica que o Cliente é o jogador 2 ("O") e que já vai iniciar a partida. 
+Nesse bloco de código o Cliente recebe uma mensagem do Servidor, a qual se for `1` indica que está aguardando outro jogador e que também que o Cliente é o Jogador 1 ("X"). Caso a mensagem seja `0`, indica que o Cliente é o jogador 2 ("O") e que já vai iniciar a partida. 
 
-Se a mensagem for '1' o cliente exibe a mensagem "Aguardando outro Jogador..." , armazena que ele é o jogador 1 e fica aguardando o começo da partida. Se a mensagem for '0' o Cliente exibe uma mensagem de confirmação de início de partida e parte para o próximo bloco de código.
+Se a mensagem for `1` o cliente exibe a mensagem `"Aguardando outro Jogador..."` , armazena que ele é o jogador 1 e fica aguardando o começo da partida. Se a mensagem for `0` o Cliente exibe uma mensagem de confirmação de início de partida e parte para o próximo bloco de código.
 
 3. Exibição Inicial do Tabuleiro
 ```c#
@@ -160,9 +162,11 @@ while (!gameEnded)
     bytesRead = stream.Read(buffer, 0, buffer.Length);
     response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 ```
-Nesse bloco de código se inicia o loop do jogo, o qual só é encerrado quando a partida acabar. o Cliente recebe uma menasgem do servidor, que pode ser o tabuleiro (caso for o jogador que não está na vez) ou caso seja o jogador na vez `X` ou `O` (indicando qual o jogador).
+Nesse bloco de código se inicia o loop do jogo, o qual só é encerrado quando a partida acabar.  
+O Cliente recebe uma mensagem do servidor, que pode ser o tabuleiro (caso for o jogador que não está na vez) ou caso seja o jogador na vez, `X` ou `O` (indicando qual o jogador).
 
-5. 1 -  Jogada do Jogador na Vez
+5. 1 -  Jogada do Jogador na Vez  
+Bloco 1: Solicitação e Envio da Jogada 
 ```c#
 if (response.Length == 1)
 {
@@ -177,8 +181,9 @@ if (response.Length == 1)
         byte[] msg = Encoding.UTF8.GetBytes(jogada);
         stream.Write(msg, 0, msg.Length);
 ```
-Ainda dentro do loop do jogo, é verificado o tamanho da mensagem enviada pelo servidor (para saber se foi enviado o tabuleiro ou a indicação do jogador). Se o tamanho da mensagem enviada for 1, o Cliente pede para o usuário digitar sua Jogada e a envia para o Servidor.
+Ainda dentro do loop do jogo, é verificado o tamanho da mensagem enviada pelo servidor (para saber se foi enviado o tabuleiro ou a indicação do jogador). Se o tamanho da mensagem enviada for `1`(indicação do Jogador), o Cliente pede para o usuário digitar sua Jogada e a envia para o Servidor.  
 
+Bloco 2: Confirmação da Jogada
 ```c#
         // Receber a confirmação da jogada
         bytesRead = stream.Read(buffer, 0, buffer.Length);
@@ -215,9 +220,9 @@ ExibirTabuleiro(response);
 ``` 
 Após a Jogada do jogador na vez o cliente exibe o tabuleiro atualizado para ambos os jogadores.
 
-5. 3 - Verificação de Condição de Vitória
+5. 3 - Verificação de Condição de Encerramento
 ```c#
-//Se o tamanho da resposta for igual a 10, verifica se houve vitória ou empate
+//Se o tamanho da resposta for igual a 10, verifica qual a condição de encerramento
 if (response.Length == 10)
 {
     //Vitória do Jogador 1
@@ -267,8 +272,8 @@ if (response.Length == 10)
     }
 }
 ```
-Caso a condição de vitória for atingida, o Servidor manda junto do tabuleiro um número informando qual foi a condição atingida (`1` para Vitória do Jogador 1, `2` para Vitória do Jogador 2 e `3` para Empate).  
-Nesse bloco de código o Cliente verifica se o tamanho da mensagem enviada foi `10` (equivalente ao tabuleiro + condição de Vitória) e caso for ele verifica se a condição de vitória foi Vitória do Jogador 1, Vitória do Jogador 2 ou empate.  
+Caso a condição de Encerramento for atingida, o Servidor manda junto do tabuleiro um número informando qual foi a condição atingida (`1` para Vitória do Jogador 1, `2` para Vitória do Jogador 2 e `3` para Empate).  
+Nesse bloco de código o Cliente verifica se o tamanho da mensagem enviada foi `10` (equivalente ao tabuleiro + condição de Encerramento) e caso for ele verifica se a condição de Encerramento foi Vitória do Jogador 1, Vitória do Jogador 2 ou empate e encerra o loop do Jogo.  
 - Vitória do Jogador 1: Cliente exibe uma mensagem de Vitória para o Jogador 1 e uma mensagem de derrota para o Jogador 2. Após isso ele encerra o Loop de Jogo.
 - Vitória do Jogador 2: Cliente exibe uma mensagem de Vitória para o Jogador 2 e uma mensagem de derrota para o Jogador 1. Após isso ele encerra o Loop de Jogo.
 - Empate ("Velha"): Cliente exibe uma mensagem de Empate para ambos os Jogadores. Após isso ele encerra o Loop de Jogo.
@@ -284,7 +289,7 @@ else if (!control)
     control = true;
 }
 ```
-Nesse bloco, caso nenhuma condição de vitória for atingida o valor da booleana `control` é alterado para o valor inverso (se for true fica false e se for false fica true) para que a mensagem de espera de Jogada seja exibida para o outro Jogador ao repetir o Loop. Após isso volta ao início do Loop de Jogo.
+Nesse bloco, caso nenhuma condição de Encerramento for atingida o valor da booleana `control` é alterado para o valor inverso (se for true fica false e se for false fica true) para que a mensagem de espera de Jogada seja exibida para o outro Jogador ao repetir o Loop. Após isso volta ao início do Loop de Jogo.
 
 6. Tratamento das Exceções
 ```c#
